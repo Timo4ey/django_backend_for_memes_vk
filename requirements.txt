@@ -1,0 +1,8 @@
+asyncpg
+aiohttp
+pandas==1.4.1
+psycopg2-binary==2.9.3
+requests==2.27.1
+python-telegram-bot==13.11
+djangorestframework==3.14.0
+

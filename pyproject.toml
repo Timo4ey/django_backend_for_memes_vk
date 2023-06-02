@@ -1,0 +1,28 @@
+[tool.poetry]
+name = "bot-backend"
+version = "0.1.0"
+description = "REST backend for MemesBot"
+authors = ["Yakovishin Timofey <yakovishintimofey@gmail.com>"]
+readme = "README.md"
+packages = [{include = "bot_backend"}]
+
+[tool.poetry.dependencies]
+python = "3.11.0"
+python-dotenv = "1.0.0"
+requests= "2.27.1"
+python-telegram-bot= "13.11"
+djangorestframework= "3.14.0"
+pandas = "^2.0.1"
+psycopg2-binary = "^2.9.6"
+markdown = "^3.4.3"
+django = "3.2"
+gunicorn = "^20.1.0"
+drf-yasg = "^1.21.5"
+flake8 = "^6.0.0"
+django-extensions = "^3.2.1"
+ipython = "^8.13.2"
+whitenoise = "^6.4.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
