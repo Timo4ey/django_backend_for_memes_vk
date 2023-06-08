@@ -24,7 +24,7 @@ RUN apt update -y
 RUN pip3 install poetry
 RUN make install
 
-RUN make collectstatic && make makemigrations && make migrate
+RUN make collectstatic
 
 CMD ["make", "start"]
 
