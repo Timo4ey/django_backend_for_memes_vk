@@ -1,7 +1,6 @@
 from rest_framework import serializers
 
-
-from .models import Groups, Content, Posts, Carousels, TelegramUsers
+from .models import Carousels, Content, Groups, Posts, TelegramUsers
 
 
 class GroupsListSerializer(serializers.ModelSerializer):
@@ -9,7 +8,7 @@ class GroupsListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Groups
-        fields = '__all__'
+        fields = "__all__"
 
 
 class ContentListSerializer(serializers.ModelSerializer):
@@ -17,7 +16,7 @@ class ContentListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Content
-        fields = '__all__'
+        fields = "__all__"
 
 
 class PostListSerializer(serializers.ModelSerializer):
@@ -25,7 +24,7 @@ class PostListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Posts
-        fields = '__all__'
+        fields = "__all__"
 
 
 class CarouselListSerializer(serializers.ModelSerializer):
@@ -33,7 +32,7 @@ class CarouselListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Carousels
-        fields = '__all__'
+        fields = "__all__"
 
 
 class TelegramUsersListSerializer(serializers.ModelSerializer):
@@ -41,4 +40,4 @@ class TelegramUsersListSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = TelegramUsers
-        fields = '__all__'
+        fields = "__all__"

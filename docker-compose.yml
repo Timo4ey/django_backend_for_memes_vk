@@ -28,7 +28,7 @@ services:
       context: ./docker_nginx/
     container_name: dj_nginx
     ports:
-      - "80:80"
+      - "8000:80"
     volumes:
       - static_volume:/bot_backend/static
     environment:

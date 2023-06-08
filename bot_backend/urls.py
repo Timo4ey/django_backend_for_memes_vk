@@ -15,13 +15,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+
 from .bot_db_models.yasg import urlpatterns as doc_urls
 
-
 urlpatterns = [
-    path('api/v1/admin/', admin.site.urls),
-    path('api-auth/', include('rest_framework.urls')),
-    path('api/v1/',  include('bot_backend.bot_db_models.urls')),
+    path("api/v1/admin/", admin.site.urls),
+    path("api-auth/", include("rest_framework.urls")),
+    path("api/v1/", include("bot_backend.bot_db_models.urls")),
 ]
 
 urlpatterns += doc_urls
