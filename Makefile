@@ -4,6 +4,13 @@ PORT ?= 8000
 start:
 	poetry run gunicorn -w 5 -b 0.0.0.0:$(PORT) bot_backend.wsgi
 
+test-django:lint
+	 @$(MANAGE) test bot_backend.bot_db_models.tests.test_models.test_model --keepdb
+
+check:
+	poetry run pytest  -c setup.cfg -v -s
+
+
 up:
 	docker compose up
 
@@ -14,7 +21,7 @@ build:
 	docker build . -t django_backend
 
 run-server:
-	docker run -p 3000:8000 --name django_backend django_backend
+	docker run -p 8000:8000 -d --name django_backend django_backend
 
 collectstatic:
 	poetry run python manage.py collectstatic --noinput
@@ -41,6 +48,15 @@ super-user:
 lint:
 	poetry run flake8 bot_backend
 
+black:
+	poetry run black .
+
+pep-isort:
+	poetry run isort . 
+
+mypy:
+	poetry run mypy . 
+
 .PHONY: shell
 shell:
 	@$(MANAGE) shell_plus --ipython
@@ -48,3 +64,6 @@ shell:
 
 install:
 	poetry install
+
+schema:
+	@$(MANAGE) sqldsn bot_db_models
