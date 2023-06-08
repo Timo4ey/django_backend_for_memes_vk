@@ -1,28 +1,35 @@
+from django.shortcuts import get_object_or_404
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from django.shortcuts import get_object_or_404
 
-from drf_yasg.utils import swagger_auto_schema
+from bot_backend.bot_db_models.serializers import (
+    CarouselListSerializer,
+    ContentListSerializer,
+    GroupsListSerializer,
+    PostListSerializer,
+    TelegramUsersListSerializer,
+)
+from bot_backend.bot_db_models.service import (
+    has_group_id,
+    has_hours_in_dict,
+    upd_request_carousel,
+    upd_request_data_dict,
+)
 
-
-from .filters import (get_posts_for_specific_period,
-                      get_carousels_for_specific_period)
-from .models import Groups, Content, Posts, Carousels, TelegramUsers
-from bot_backend.bot_db_models.serializers import (GroupsListSerializer,
-                                                   ContentListSerializer,
-                                                   PostListSerializer,
-                                                   CarouselListSerializer,
-                                                   TelegramUsersListSerializer)
+from .filters import (
+    get_carousels_for_specific_period,
+    get_posts_for_specific_period,
+)
+from .models import Carousels, Content, Groups, Posts, TelegramUsers
 
 
 class GroupsListView(APIView):
     """Show list of groups"""
 
     def get(self, request):
-
         groups = Groups.objects.all()
-        serializer = GroupsListSerializer(groups, many=True,
-                                          )
+        serializer = GroupsListSerializer(groups, many=True)
         return Response(serializer.data)
 
     @swagger_auto_schema(request_body=GroupsListSerializer)
@@ -36,9 +43,13 @@ class GroupsListView(APIView):
     @swagger_auto_schema(request_body=GroupsListSerializer)
     def put(self, request):
         instance = get_object_or_404(
-            Groups, group_id=request.data.get('group_id', 0))
-        if not request.data.get('group_vk_id'):
-            request.data.update({'group_vk_id': instance.group_vk_id})
+            Groups, group_id=request.data.get("group_id", 0)
+        )
+        if not has_group_id(request.data):
+            upd_request_data_dict(
+                request.data, "group_vk_id", instance.group_vk_id
+            )
+            # request.data.update({'group_vk_id': instance.group_vk_id})
         group = GroupsListSerializer(data=request.data, instance=instance)
         if group.is_valid():
             group.save()
@@ -47,8 +58,7 @@ class GroupsListView(APIView):
 
     @swagger_auto_schema(request_body=GroupsListSerializer)
     def delete(self, request):
-        instance = get_object_or_404(
-            Groups, group_id=request.data['group_id'])
+        instance = get_object_or_404(Groups, group_id=request.data["group_id"])
         if instance:
             instance.delete()
             return Response(status=200)
@@ -57,6 +67,7 @@ class GroupsListView(APIView):
 
 class GroupsDetailView(APIView):
     """Show data of a group"""
+
     def get(self, request, pk):
         group = get_object_or_404(Groups, pk=pk)
         serializer = GroupsListSerializer(group)
@@ -65,8 +76,11 @@ class GroupsDetailView(APIView):
     @swagger_auto_schema(request_body=GroupsListSerializer)
     def put(self, request, pk):
         instance = get_object_or_404(Groups, group_id=pk)
-        if not request.data.get('group_vk_id'):
-            request.data['group_vk_id'] = instance.group_vk_id
+        if not has_group_id(request.data):
+            upd_request_data_dict(
+                request.data, "group_vk_id", instance.group_vk_id
+            )
+            # request.data['group_vk_id'] = instance.group_vk_id
 
         group = GroupsListSerializer(data=request.data, instance=instance)
         if group.is_valid():
@@ -76,8 +90,7 @@ class GroupsDetailView(APIView):
 
     @swagger_auto_schema(request_body=GroupsListSerializer)
     def delete(self, request, pk):
-        instance = get_object_or_404(
-            Groups, group_id=pk)
+        instance = get_object_or_404(Groups, group_id=pk)
         if instance:
             instance.delete()
             return Response(status=200)
@@ -86,6 +99,7 @@ class GroupsDetailView(APIView):
 
 class ContentListView(APIView):
     """Show list of content"""
+
     def get(self, request):
         content = Content.objects.all()
         serializer = ContentListSerializer(content, many=True)
@@ -94,8 +108,10 @@ class ContentListView(APIView):
     @swagger_auto_schema(request_body=ContentListSerializer)
     def post(self, request):
         instance = get_object_or_404(
-            Groups, group_vk_id=request.data.get('group_id_fk', 0))
-        request.data.update({'group_id_fk': instance.group_id})
+            Groups, group_vk_id=request.data.get("group_id_fk", 0)
+        )
+        upd_request_data_dict(request.data, "group_id_fk", instance.group_id)
+        # request.data.update({'group_id_fk': instance.group_id})
         new_data = ContentListSerializer(data=request.data)
         print(request.data)
         if new_data.is_valid():
@@ -106,9 +122,9 @@ class ContentListView(APIView):
     @swagger_auto_schema(request_body=ContentListSerializer)
     def put(self, request):
         instance = get_object_or_404(
-                Groups, group_vk_id=request.data.get('group_id_fk', 0))
-        new_data = ContentListSerializer(
-            data=request.data, instance=instance)
+            Groups, group_vk_id=request.data.get("group_id_fk", 0)
+        )
+        new_data = ContentListSerializer(data=request.data, instance=instance)
         if new_data.is_valid():
             new_data.save()
             return Response(status=200)
@@ -117,7 +133,8 @@ class ContentListView(APIView):
     @swagger_auto_schema(request_body=ContentListSerializer)
     def delete(self, request):
         instance = get_object_or_404(
-            Groups, group_vk_id=request.data.get('group_id_fk', 0))
+            Groups, group_vk_id=request.data.get("group_id_fk", 0)
+        )
         if instance:
             instance.delete()
             return Response(status=200)
@@ -126,6 +143,7 @@ class ContentListView(APIView):
 
 class ContentDetailView(APIView):
     """Show data of a content"""
+
     def get(self, request, pk):
         content = get_object_or_404(Content, pk=pk)
         serializer = ContentListSerializer(content)
@@ -142,8 +160,7 @@ class ContentDetailView(APIView):
 
     @swagger_auto_schema(request_body=ContentListSerializer)
     def delete(self, request, pk):
-        instance = get_object_or_404(
-            Content, content_id=pk)
+        instance = get_object_or_404(Content, content_id=pk)
         if instance:
             instance.delete()
             return Response(status=200)
@@ -152,10 +169,10 @@ class ContentDetailView(APIView):
 
 class PostListView(APIView):
     """Show list of posts"""
-    def get(self, request):
 
-        if request.GET.get('hours'):
-            hours = request.GET.get('hours', 1)
+    def get(self, request):
+        if has_hours_in_dict(request.GET):
+            hours = request.GET.get("hours", 1)
             posts = get_posts_for_specific_period(hours)
         else:
             posts = Posts.objects.all()
@@ -165,8 +182,11 @@ class PostListView(APIView):
     @swagger_auto_schema(request_body=PostListSerializer)
     def post(self, request):
         instance = Content.objects.get(
-            content_vk_id=request.data.get('content_fk'))
-        request.data.update({'content_fk': instance.content_id})
+            content_vk_id=request.data.get("content_fk")
+        )
+        upd_request_data_dict(request.data, "content_fk", instance.content_id)
+        # request.data.update({'content_fk': instance.content_id})
+
         print(request.data)
         new_data = PostListSerializer(data=request.data)
         if new_data.is_valid():
@@ -176,8 +196,7 @@ class PostListView(APIView):
 
     @swagger_auto_schema(request_body=PostListSerializer)
     def put(self, request):
-        instance = get_object_or_404(Posts,
-                                     post_id=request.data['post_id'])
+        instance = get_object_or_404(Posts, post_id=request.data["post_id"])
         posts_upd = PostListSerializer(data=request.data, instance=instance)
         if posts_upd.is_valid():
             posts_upd.save()
@@ -187,8 +206,7 @@ class PostListView(APIView):
     @swagger_auto_schema(request_body=PostListSerializer)
     def delete(self, request):
         print(request.data)
-        group = get_object_or_404(Posts,
-                                  post_id=request.data['post_id'])
+        group = get_object_or_404(Posts, post_id=request.data["post_id"])
         if group:
             group.delete()
             return Response(status=200)
@@ -197,6 +215,7 @@ class PostListView(APIView):
 
 class PostDetailView(APIView):
     """Show data of a posts"""
+
     def get(self, request, pk):
         post = get_object_or_404(Posts, pk=pk)
         serializer = PostListSerializer(post)
@@ -213,8 +232,7 @@ class PostDetailView(APIView):
 
     @swagger_auto_schema(request_body=PostListSerializer)
     def delete(self, request, pk):
-        instance = get_object_or_404(
-            Posts, post_id=pk)
+        instance = get_object_or_404(Posts, post_id=pk)
         if instance:
             instance.delete()
             return Response(status=200)
@@ -223,9 +241,10 @@ class PostDetailView(APIView):
 
 class CarouselListView(APIView):
     """Show list of posts"""
+
     def get(self, request):
-        if request.GET.get('hours'):
-            hours = request.GET.get('hours', 1)
+        if has_hours_in_dict(request.GET):
+            hours = request.GET.get("hours", 1)
             carousels = get_carousels_for_specific_period(hours)
         else:
             carousels = Carousels.objects.all()
@@ -235,10 +254,14 @@ class CarouselListView(APIView):
     @swagger_auto_schema(request_body=CarouselListSerializer)
     def post(self, request):
         print(request.data)
-        content_id = get_object_or_404(Content,
-                                       content_vk_id=request.data.get(
-                                                     'content_id'))
-        request.data.update({'content_id': content_id.content_id})
+        content_id = get_object_or_404(
+            Content, content_vk_id=request.data.get("content_id")
+        )
+        upd_request_data_dict(
+            request.data, "content_id", content_id.content_id
+        )
+
+        # request.data.update({'content_id': content_id.content_id})
 
         new_data = CarouselListSerializer(data=request.data)
         if new_data.is_valid():
@@ -248,10 +271,9 @@ class CarouselListView(APIView):
 
     @swagger_auto_schema(request_body=CarouselListSerializer)
     def put(self, request):
-        instance = get_object_or_404(Content,
-                                     carousel_id=request.data.get('carousel_id'
-                                                                  )
-                                     )
+        instance = get_object_or_404(
+            Content, carousel_id=request.data.get("carousel_id")
+        )
         data = CarouselListSerializer(data=request.data, instance=instance)
         if data.is_valid():
             data.save
@@ -260,16 +282,16 @@ class CarouselListView(APIView):
 
     @swagger_auto_schema(request_body=CarouselListSerializer)
     def delete(self, request):
-        instance = get_object_or_404(Content,
-                                     carousel_id=request.data.get('carousel_id'
-                                                                  )
-                                     )
+        instance = get_object_or_404(
+            Content, carousel_id=request.data.get("carousel_id")
+        )
         instance.delete()
         return Response(status=200)
 
 
 class CarouselDetailView(APIView):
     """Show data of a posts"""
+
     def get(self, request, pk):
         carousel = get_object_or_404(Carousels, pk=pk)
         serializer = CarouselListSerializer(carousel)
@@ -278,13 +300,8 @@ class CarouselDetailView(APIView):
     @swagger_auto_schema(request_body=CarouselListSerializer)
     def put(self, request, pk):
         instance = get_object_or_404(Carousels, carousel_id=pk)
-        request.data['url'] = instance.url
-        request.data['url1'] = instance.url1
-        request.data['url2'] = instance.url2
-        request.data['content_id'] = instance.content_id
-        request.data['carousel_id'] = instance.carousel_id
+        upd_request_carousel(request.data, instance)
         carousel = CarouselListSerializer(data=request.data, instance=instance)
-        print(instance.__dict__)
         if carousel.is_valid():
             carousel.save()
             return Response(carousel.data, status=200)
@@ -292,8 +309,7 @@ class CarouselDetailView(APIView):
 
     @swagger_auto_schema(request_body=CarouselListSerializer)
     def delete(self, request, pk):
-        instance = get_object_or_404(
-            Carousels, carousel_id=pk)
+        instance = get_object_or_404(Carousels, carousel_id=pk)
         if instance:
             instance.delete()
             return Response(status=200)
@@ -302,7 +318,6 @@ class CarouselDetailView(APIView):
 
 class TelegramUsersView(APIView):
     def get(self, request):
-
         user = TelegramUsers.objects.all()
         serializer = TelegramUsersListSerializer(user, many=True)
         return Response(serializer.data)
@@ -318,11 +333,13 @@ class TelegramUsersView(APIView):
     @swagger_auto_schema(request_body=TelegramUsersListSerializer)
     def put(self, request):
         instance = get_object_or_404(
-            TelegramUsers, group_id=request.data.get('group_id', 0))
-        if not request.data.get('group_vk_id'):
-            request.data.update({'group_vk_id': instance.group_vk_id})
-        group = TelegramUsersListSerializer(data=request.data,
-                                            instance=instance)
+            TelegramUsers, group_id=request.data.get("group_id", 0)
+        )
+        if not has_group_id(request.data):
+            request.data.update({"group_vk_id": instance.group_vk_id})
+        group = TelegramUsersListSerializer(
+            data=request.data, instance=instance
+        )
         if group.is_valid():
             group.save()
             return Response(status=200)
@@ -331,7 +348,8 @@ class TelegramUsersView(APIView):
     @swagger_auto_schema(request_body=TelegramUsersListSerializer)
     def delete(self, request):
         instance = get_object_or_404(
-            TelegramUsers, group_id=request.data['group_id'])
+            TelegramUsers, group_id=request.data["group_id"]
+        )
         if instance:
             instance.delete()
             return Response(status=200)
