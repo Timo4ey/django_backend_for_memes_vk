@@ -3,3 +3,5 @@ __pycache__/
 .idea
 .venv
 migrations/
+.pytest_cache
+.mypy_cache
