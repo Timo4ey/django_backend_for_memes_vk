@@ -1,0 +1,42 @@
+[
+    {
+         "carousel" : {
+            "carousel1": { 
+                "url": "https://sun9-49.userapi.com/impg/2A1mNCRdwsL1zAJPZespDL5dO79n0zN8augB9w/mSlp2DVnj8E.jpg?size=1024x1024&quality=95&sign=70746ae3819ae497d89f8c733f0fb008&type=album",
+                "url1": "https://sun9-67.userapi.com/impg/wKtz3L9qGX81mOQwkDFFc7Qg0s_PgCMyrEbsIw/MI-d9HfWUl0.jpg?size=512x512&quality=95&sign=5608d773d689ba0bb846f41e76a85543&type=album",
+                "content_id": 1
+            },
+            "carousel2": { 
+                "url": "https://sun9-49.userapi.com/impg/2A1mNCRdwsL1zAJPZespDL5dO79n0zN8augB9w/mSlp2DVnj8E.jpg?size=1024x1024&quality=95&sign=70746ae3819ae497d89f8c733f0fb008&type=album",
+                "url1": "https://sun9-67.userapi.com/impg/wKtz3L9qGX81mOQwkDFFc7Qg0s_PgCMyrEbsIw/MI-d9HfWUl0.jpg?size=512x512&quality=95&sign=5608d773d689ba0bb846f41e76a85543&type=album",
+                "url2": "https://sun9-72.userapi.com/impg/uXr1uKtKNpjNSO77zs71pwUayrK68OE3L4tYhw/9LaOjAtNs4Y.jpg?size=512x512&quality=95&sign=df7526b7018cd9004636c81919a24829&type=album",
+                "text": "Four beautiful cats",
+                "content_id": 1
+            }
+         },
+         "group": {
+             "group_name":"Котики AI",
+             "group_vk_id":221003460
+         },
+         "group2": {
+             "group_name": "Котики AA",
+             "group_vk_id": 221003461
+         },
+         "hours": {
+            "hours": 1
+            
+        },
+         "upd": {
+            "upd_data": {
+                "content_vk_id": 457239017
+            },
+            "public_date":"2023-05-28T11:07:00Z", 
+
+            "upd_data2": {
+                "content_vk_id": 457239017,
+                "public_date":"2023-05-28T11:07:00Z"
+            }
+      
+        }
+     }
+ ]
