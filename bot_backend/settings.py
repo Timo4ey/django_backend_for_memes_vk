@@ -158,7 +158,7 @@ STATIC_URL = "/static/"
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
-GRAPH_MODELS ={
-    'all_applications': True,
-    'graph_models': True,
-     }
+GRAPH_MODELS = {
+    "all_applications": True,
+    "graph_models": True,
+}
