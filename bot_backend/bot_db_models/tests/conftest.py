@@ -3,6 +3,7 @@ from json import loads
 from pathlib import Path
 
 import pytest
+from bot_backend import settings
 
 from bot_backend.bot_db_models.models import Carousels, Content, Groups
 
@@ -14,8 +15,7 @@ with open(
 
 @pytest.fixture(scope="function")
 def django_db_setup():
-    # settings.DATABASES['TEST']
-    pass
+    settings.DATABASES['TEST']
 
 
 # Group
