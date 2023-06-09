@@ -8,7 +8,7 @@ test-django:lint
 	 @$(MANAGE) test bot_backend.bot_db_models.tests.test_models.test_model --keepdb
 
 check:
-	poetry run pytest . -v -s
+	poetry run pytest -v -s
 
 
 up:
