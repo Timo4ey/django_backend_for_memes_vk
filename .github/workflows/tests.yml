@@ -10,6 +10,7 @@ env:
   POSTGRES_DB: ${{vars.POSTGRES_DB}}
   POSTGRES_port: ${{vars.POSTGRES_port}}
   DJANGO_CONFIGURATION: ${{vars.DJANGO_CONFIGURATION}}
+  SECRET_KEY: ${{vars.SECRET_KEY}}
 
 jobs:
   build:
