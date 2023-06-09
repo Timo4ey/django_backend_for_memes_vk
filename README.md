@@ -1,3 +1,5 @@
+![tests](https://github.com/Timo4ey/django_backend_for_memes_vk/actions/workflows/tests.yml/badge.svg)
+
 # Backend for memes bot from vk.com
 
 It's backend part of [this project]()
