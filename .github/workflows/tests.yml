@@ -9,7 +9,6 @@ env:
   POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
   POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
   POSTGRES_port: ${{ secrets.POSTGRES_port }}
-  DJANGO_CONFIGURATION: ${{ secrets.DJANGO_CONFIGURATION }}
   SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
 jobs:
