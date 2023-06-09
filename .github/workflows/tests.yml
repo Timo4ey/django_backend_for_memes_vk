@@ -3,6 +3,14 @@ on:
   - push
   - pull_request
 
+env:
+  POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
+  POSTGRES_USER: ${{vars.POSTGRES_USER}}
+  POSTGRES_PASSWORD: ${{vars.POSTGRES_PASSWORD}}
+  POSTGRES_DB: ${{vars.POSTGRES_DB}}
+  POSTGRES_port: ${{vars.POSTGRES_port}}
+  DJANGO_CONFIGURATION: ${{vars.DJANGO_CONFIGURATION}}
+
 jobs:
   build:
     runs-on: ubuntu-latest
