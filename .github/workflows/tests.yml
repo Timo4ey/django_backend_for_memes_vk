@@ -4,13 +4,13 @@ on:
   - pull_request
 
 env:
-  POSTGRES_HOST: ${{ vars.POSTGRES_HOST }}
-  POSTGRES_USER: ${{ vars.POSTGRES_USER }}
-  POSTGRES_PASSWORD: ${{ vars.POSTGRES_PASSWORD }}
-  POSTGRES_DB: ${{ vars.POSTGRES_DB }}
-  POSTGRES_port: ${{ vars.POSTGRES_port }}
-  DJANGO_CONFIGURATION: ${{ vars.DJANGO_CONFIGURATION }}
-  SECRET_KEY: ${{ vars.SECRET_KEY }}
+  POSTGRES_HOST: ${{ secrets.POSTGRES_HOST }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+  POSTGRES_port: ${{ secrets.POSTGRES_port }}
+  DJANGO_CONFIGURATION: ${{ secrets.DJANGO_CONFIGURATION }}
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
 jobs:
   build:
