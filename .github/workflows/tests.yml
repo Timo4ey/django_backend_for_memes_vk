@@ -33,7 +33,7 @@ jobs:
         uses: paambaati/codeclimate-action@v4.0.0
         if: github.ref_name == 'main'
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.TEST_SCOVERAGE }}
+          CC_TEST_REPORTER_ID: ${{ secrets.django_backend_for_memes_vk_tests }}
         with:
           CoverageCommand: make tests-coverage
           debug: true
