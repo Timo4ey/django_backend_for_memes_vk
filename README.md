@@ -1,5 +1,5 @@
 ![tests](https://github.com/Timo4ey/django_backend_for_memes_vk/actions/workflows/tests.yml/badge.svg)
-
+[![Test Coverage](https://api.codeclimate.com/v1/badges/9f99f017cc20c7146cbf/test_coverage)](https://codeclimate.com/github/Timo4ey/django_backend_for_memes_vk/test_coverage)
 # Backend for memes bot from vk.com
 
 It's backend part of [this project]()
