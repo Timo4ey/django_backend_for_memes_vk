@@ -261,8 +261,6 @@ class CarouselListView(APIView):
             request.data, "content_fk", content_id.content_id
         )
 
-        # request.data.update({'content_id': content_id.content_id})
-
         new_data = CarouselListSerializer(data=request.data)
         if new_data.is_valid():
             new_data.save()

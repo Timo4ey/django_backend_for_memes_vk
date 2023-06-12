@@ -33,7 +33,7 @@ pyparsing = "^3.0.9"
 pytest = "^7.3.1"
 dj-database-url = "^2.0.0"
 pytest-cov = "^4.1.0"
-coverage = "^7.2.7"
+coverage = {extras = ["toml"], version = "^7.2.7"}
 
 
 [tool.pytest.ini_options]
@@ -58,3 +58,9 @@ profile = "black"
 py_version = 310
 multi_line_output = 3
 
+[tool.coverage.report]
+omit = ["bot_backend/bot_db_models/migrations/*",
+        "wsgi.py", "settings.py", "__init__.py",
+        "urls.py", "asgi.py", "apps.py", "conftest.py"
+        , "test_models/"
+]

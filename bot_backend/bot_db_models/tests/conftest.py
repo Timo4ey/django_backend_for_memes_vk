@@ -5,7 +5,7 @@ from pathlib import Path
 import pytest
 
 from bot_backend import settings
-from bot_backend.bot_db_models.models import Carousels, Content, Groups
+from bot_backend.bot_db_models.models import Carousels, Content, Groups, Posts
 
 with open(
     os.path.join(Path(__file__).parent, "tests_cases_models.json"), "r"
@@ -85,8 +85,56 @@ def carousel_factory(db):
         text="",
     ):
         carousel = Carousels.objects.create(
-            url=url, url1=url1, content_fk=content_fk
+            url=url,
+            url1=url1,
+            url2=url2,
+            url3=url3,
+            url4=url4,
+            url5=url5,
+            url6=url6,
+            url7=url7,
+            url8=url8,
+            url9=url9,
+            text=text,
+            content_fk=content_fk,
         )
         return carousel
 
     return create_default_carousel
+
+
+@pytest.fixture
+def carousel_a(db, carousel_factory, content_a):
+    return carousel_factory(
+        url=data["carousel"]["url"],
+        url1=data["carousel"]["url1"],
+        url2=data["carousel"]["url2"],
+        text=data["carousel"]["text"],
+        content_fk=content_a,
+    )
+
+
+# ---------------------------------------------------------
+# Posts
+
+
+@pytest.fixture
+def posts_factory(db):
+    def create_default_post(url, text, content_fk):
+        post = Posts.objects.create(
+            url=url,
+            text=text,
+            content_fk=content_fk,
+        )
+        return post
+
+    return create_default_post
+
+
+@pytest.fixture
+def post_a(db, posts_factory, content_a):
+    return posts_factory(
+        url=data["post"]["url"],
+        text=data["post"]["text"],
+        content_fk=content_a,
+    )
