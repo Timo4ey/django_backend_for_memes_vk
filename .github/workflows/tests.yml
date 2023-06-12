@@ -31,9 +31,9 @@ jobs:
             make check
       - name: Test & publish code coverage
         uses: paambaati/codeclimate-action@v4.0.0
-        if: github.ref_name == 'main'
+        if: github.ref_name == 'master'
         env:
-          CC_TEST_REPORTER_ID: ${{ secrets.django_backend_for_memes_vk_tests }}
+          CC_TEST_REPORTER_ID: ${{ secrets.TEST_SCOVERAGE }}
         with:
           CoverageCommand: make tests-coverage
           debug: true
