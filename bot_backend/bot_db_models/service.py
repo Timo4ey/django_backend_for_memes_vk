@@ -28,7 +28,7 @@ def upd_request_data_dict(
 
 def upd_request_carousel(req_data: dict, instance: Carousels) -> None:
     """Update several keys in a dict"""
-    key_words = {"url", "url1", "url2", "text", "content_id", "carousel_id"}
+    key_words = {"url", "url1", "url2", "text", "content_fk", "carousel_id"}
     data = instance.__dict__
     for key in data:
         if key in key_words:

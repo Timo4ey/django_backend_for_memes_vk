@@ -258,7 +258,7 @@ class CarouselListView(APIView):
             Content, content_vk_id=request.data.get("content_id")
         )
         upd_request_data_dict(
-            request.data, "content_id", content_id.content_id
+            request.data, "content_fk", content_id.content_id
         )
 
         # request.data.update({'content_id': content_id.content_id})

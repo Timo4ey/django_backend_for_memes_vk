@@ -19,12 +19,11 @@ COPY . .
 COPY /config/gunicorn/* /etc/systemd/system/
 
 
-
 RUN apt update -y
 RUN pip3 install poetry
 RUN make install
 
-RUN make collectstatic
+RUN make makemigrations migrate
 
 CMD ["make", "start"]
 

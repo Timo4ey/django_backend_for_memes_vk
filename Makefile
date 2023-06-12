@@ -10,7 +10,8 @@ test-django:lint
 check:
 	poetry run pytest -vv
 
-
+tests-coverage:
+	poetry run pytest --cov=bot_backend --cov-report xml
 up:
 	docker compose up
 
